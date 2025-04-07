@@ -1,0 +1,14 @@
+[package]
+name = "rustos"
+version = "0.1.0"
+edition = "2024"
+authors = ["Tathagato Roy <tathagatoroy3@gmail.com>"]
+
+[dependencies]
+
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
