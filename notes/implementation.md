@@ -1,37 +1,43 @@
-* By default the linker in rust assumes a os and certain other details. For example for my system it assumes linux x64 and hence defaults to a C runtime. But we are building an OS hence we need a barebones target we assume no OS.  Such a bare metal environment is thumbv7em-none-eabihf target triple which describes an embedded ARM System
-to set this is up run the following
-    ```bash
-    rustup target add thumbv7em-none-eabihf
-    ```
+# Implementation Notes
 
-To use the nightly version to access certain experimental features run :
-    ```bash 
-    rustup override set nightly 
-    ```
+By default, the linker in Rust assumes an operating system and certain other details. For example, on my system, it assumes Linux x64 and defaults to a C runtime. However, since we are building an OS, we need a barebones target that assumes no OS. Such a bare-metal environment can be described using the `thumbv7em-none-eabihf` target triple, which is for an embedded ARM system.
 
-One needs to recompile core to use it over bare metal as the existing installation is precompiled for the os.
-To do that we need to add this to .cargo/config.toml in the root dir 
-    ```json
-    [unstable]
-    build-std = ["core", "compiler_builtins"]
-    ```
+To set this up, run the following:
 
-and then run 
-    ```bash 
-    rustup component add rust-src
-    ```
+```bash
+rustup target add thumbv7em-none-eabihf
+```
 
-    
+To use the nightly version to access certain experimental features, run:
 
-    Now to build in this environment run 
-    ``` 
-    cargo build --target x86_64_rustos_config.json
-    ```
+```bash
+rustup override set nightly
+```
 
-## Documentation 
+One needs to recompile `core` to use it in a bare-metal environment, as the existing installation is precompiled for the OS. To do that, add the following to `.cargo/config.toml` in the root directory:
 
-### Build Configuration for the Kernel 
+```toml
+[unstable]
+build-std = ["core", "compiler_builtins"]
+```
 
+Then, run:
+
+```bash
+rustup component add rust-src
+```
+
+Now, to build in this environment, run:
+
+```bash
+cargo build --target x86_64_rustos_config.json
+```
+
+---
+
+## Documentation
+
+### Build Configuration for the Kernel
 
 ### Configuration File Explanation (`x86_64_rustos_config.json`)
 
@@ -72,7 +78,7 @@ This configuration file defines a custom target for building a Rust project for 
    - **Value**: `"none"`
    - **Purpose**: Indicates that the target does not rely on an operating system, suitable for bare-metal development.
 
-#### 8. **`executable`**
+#### 8. **`executables`**
    - **Description**: Indicates whether the target produces an executable binary.
    - **Value**: `true`
    - **Purpose**: Specifies that the output is an executable, not a library or other artifact.
@@ -99,13 +105,10 @@ This configuration file defines a custom target for building a Rust project for 
 
 #### 13. **`features`**
    - **Description**: Specifies CPU features to enable or disable.
-   - **Value**: `"--mmx, -sse, +soft-float"`
+   - **Value**: `"-mmx,-sse,+soft-float"`
    - **Purpose**: Disables MMX and SSE instructions and enables software floating-point operations, which may be necessary for environments without hardware floating-point support.
 
-#### 14. **`rustc-abi`**
-   - **Description**: Specifies the ABI (Application Binary Interface) for the target.
-   - **Value**: `"x86_softfloat"`
-   - **Purpose**: Ensures compatibility with software floating-point operations.
+---
 
 ### Why Use This Configuration?
 
