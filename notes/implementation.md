@@ -4,9 +4,28 @@ to set this is up run the following
     rustup target add thumbv7em-none-eabihf
     ```
 
+To use the nightly version to access certain experimental features run :
+    ```bash 
+    rustup override set nightly 
+    ```
+
+One needs to recompile core to use it over bare metal as the existing installation is precompiled for the os.
+To do that we need to add this to .cargo/config.toml in the root dir 
+    ```json
+    [unstable]
+    build-std = ["core", "compiler_builtins"]
+    ```
+
+and then run 
+    ```bash 
+    rustup component add rust-src
+    ```
+
+    
+
     Now to build in this environment run 
     ``` 
-    cargo build --target thumbv7em-none-eabihf
+    cargo build --target x86_64_rustos_config.json
     ```
 
 ## Documentation 
