@@ -5,6 +5,7 @@ edition = "2024"
 authors = ["Tathagato Roy <tathagatoroy3@gmail.com>"]
 
 [dependencies]
+bootloader = "0.9"
 
 
 [profile.dev]

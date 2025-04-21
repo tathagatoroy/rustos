@@ -27,6 +27,24 @@ Then, run:
 rustup component add rust-src
 ```
 
+to attach a bootable to our kernel we need to use bootimage tool 
+go to your home directory and run 
+
+```bash 
+cargo install bootimage
+```
+
+to run this we need to add llvm-tools-preview. Go to project root and run -> 
+```bash
+rustup component add llvm-tools-preview
+```
+
+then to create bootable disk image go to your project root and run 
+```bash 
+cargo bootimage 
+```
+
+
 Now, to build in this environment, run:
 
 ```bash
