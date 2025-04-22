@@ -131,3 +131,21 @@ This configuration file defines a custom target for building a Rust project for 
 ### Why Use This Configuration?
 
 This configuration is tailored for bare-metal development on the `x86_64` architecture. It ensures compatibility with the hardware while avoiding dependencies on an operating system or standard library. The settings are optimized for low-level programming, where control over memory layout, stack behavior, and floating-point operations is critical.
+
+### qemu installation 
+
+I was working in a headless linux server with no sudo access to simple apt install qemu will not work. I had to build from source. 
+Steps to do this 
+Assuming you are in the directory where you want to do this already. Else cd to the directory. 
+You can replace the version number as required.
+```bash 
+mkdir -p ./qemu_build
+mkdir -p ./local/bin # For executable files
+mkdir -p ./local/lib # For library files (may be needed)
+mkdir -p ./vm_images # To store VM disk images later
+cd ./qemu_build
+wget https://download.qemu.org/qemu-9.0.0.tar.xz 
+tar xvf qemu-9.0.0.tar.xz 
+# Navigate into the extracted directory
+cd qemu-9.0.0
+./configure --prefix=$STARTING_DIR/local --target-list=x86_64-softmmu --disable-sdl --disable-gtk
